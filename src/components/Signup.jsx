@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,9 +16,18 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Signup({ referalText, handleReferalChange }) {
+export default function Signup() {
   const navigation = useNavigate();
+
+  const { referalText } = useSelector((state) => state.referal);
+  const dispatch = useDispatch();
+
+  const handleReferalChange = (event) => {
+    const action = { type: 'REFERAL_CHANGE', referalText: event.target.value };
+    dispatch(action);
+  };
 
   const [email, setEmail] = useState({ isvalid: false, value: '', message: '' });
   // eslint-disable-next-line
@@ -107,6 +116,7 @@ export default function Signup({ referalText, handleReferalChange }) {
           Sign Up
         </Typography>
         <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
+          <span>{referalText}</span>
           <TextField
             sx={{ mb: 0 }}
             error={!email.isvalid && email.value.length > 0}
@@ -192,7 +202,7 @@ export default function Signup({ referalText, handleReferalChange }) {
               type="text"
               id="referalCode"
               value={referalText}
-              onChange={(event) => handleReferalChange(event.target.value)}
+              onChange={handleReferalChange}
             />
           ) : '' }
           <Button
@@ -217,12 +227,13 @@ export default function Signup({ referalText, handleReferalChange }) {
   );
 }
 
-Signup.defaultProps = {
-  referalText: null,
-  handleReferalChange: null,
-};
+// Signup.defaultProps = {
+//   referalText: null,
+//   handleReferalChange: null,
+// };
 
-Signup.propTypes = {
-  referalText: PropTypes.string,
-  handleReferalChange: PropTypes.func,
-};
+// Signup.propTypes = {
+//   referalText: PropTypes.string,
+//   handleReferalChange: PropTypes.func,
+// };
+// { referalText, handleReferalChange }

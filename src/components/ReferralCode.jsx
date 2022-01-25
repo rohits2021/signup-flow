@@ -1,12 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Container, CssBaseline, Box, Typography, Button, TextField,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-function ReferralCode({ referalText }) {
+function ReferralCode() {
   const navigation = useNavigate();
+
+  const { referalText } = useSelector((state) => state.referal);
+  const dispatch = useDispatch();
+
+  const handleChange = (event) => {
+    const action = { type: 'REFERAL_CHANGE', referalText: event.target.value };
+    dispatch(action);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     navigation('/dashboard');
@@ -40,6 +49,7 @@ function ReferralCode({ referalText }) {
               type="text"
               id="referalCode"
               value={referalText}
+              onChange={handleChange}
             />
             <Button
               type="submit"
@@ -55,12 +65,13 @@ function ReferralCode({ referalText }) {
   );
 }
 
-ReferralCode.defaultProps = {
-  referalText: null,
-};
+// ReferralCode.defaultProps = {
+//   referalText: null,
+// };
 
-ReferralCode.propTypes = {
-  referalText: PropTypes.string,
-};
+// ReferralCode.propTypes = {
+//   referalText: PropTypes.string,
+// };
+// { referalText }
 
 export default ReferralCode;
